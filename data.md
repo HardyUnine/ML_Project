@@ -80,10 +80,9 @@ ORCL — Oracle Corporation
 --- 
 
 
-## NEW DATA IN PLAN B -> 30 csvs
+## NEW DATA IN PLAN B -> 20 csvs
 10 = short squeezes 
-10 = shorts 
-10 = nothing particular
+10 = shorts but no squeezes
 
 ### Short Squeeze csvs : 
 AMC, BB, BYND, FUBO, GME, KOSS, NOK, PLTR, RIOT, TLRY
@@ -91,5 +90,3 @@ AMC, BB, BYND, FUBO, GME, KOSS, NOK, PLTR, RIOT, TLRY
 ### SHORT csvs :
 TSLA, AAPL, MSFT, GOOGL, AMZN, META, NFLX, NVDA, INTC, AMD
 
-### STABLE csvs : 
-IBM, ORCL, CSCO, SAP, ADBE, CRM, INTU, CSX, MMM, HON
