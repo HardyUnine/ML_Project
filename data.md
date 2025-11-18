@@ -72,3 +72,24 @@ ORCL — Oracle Corporation
 | Balanced                   | 0.4-0.55 | 45-50 | 0.03-0.05       | 0.3-0.4      |
 | Mostly Sells               | ~0.2     | ~70   | ~0.01           | ~0.6         |
 | Highly Susceptible Squeeze | ~0.75    | ~28   | ~0.08           | ~0.15        |
+
+
+
+
+
+--- 
+
+
+## NEW DATA IN PLAN B -> 30 csvs
+10 = short squeezes 
+10 = shorts 
+10 = nothing particular
+
+### Short Squeeze csvs : 
+AMC, BB, BYND, FUBO, GME, KOSS, NOK, PLTR, RIOT, TLRY
+
+### SHORT csvs :
+TSLA, AAPL, MSFT, GOOGL, AMZN, META, NFLX, NVDA, INTC, AMD
+
+### STABLE csvs : 
+IBM, ORCL, CSCO, SAP, ADBE, CRM, INTU, CSX, MMM, HON

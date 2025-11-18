@@ -48,7 +48,7 @@ output to decisions.csv -> ID, GROUP, DECISION with ID being the person itself, 
 We need to somehow calculate how many shares they would buy or sell. A percentage of what they own probably, but we also need to check if there are enough shares in the market so that everyone can buy or sell what they want. 
 
 ## Step 4
-Calculate change in company_data.csv based on the decisions from decisions.csv
+Calculate change in company_data.csv based on the decisions from decisions.csv --> should just be a dictionary : person id, decision --> {23,-1} etc
 
 ## Step 5 
 Loop step 3 - 4 until 14 days are completed 
