@@ -52,3 +52,23 @@ AVGO — Broadcom Inc.
 DIS — The Walt Disney Company
 
 ORCL — Oracle Corporation
+
+## data description for company_data_revised.csv
+
+
+
+| Category                                           | Ticker Symbols                                         | Description                                                                                              |
+| -------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| Mostly Holds (10 companies)                        | MSFT, GOOG, META, BRK.B, V, TSM, BABA, AVGO, JPM, NFLX | Moderate Short Interest (SIR ~0.35), RSI around 55, low Borrow Fee (~0.02), higher Public Float (~0.5)   |
+| Balanced (4 companies)                             | AMZN, TSLA, DIS, NFLX                                  | Moderate SIR (~0.4-0.55), RSI ~45-50, moderate Borrow Fee (~0.03-0.05), moderate Public Float (~0.3-0.4) |
+| Mostly Sells (4 companies)                         | XOM, JNJ, BAC, WMT, ORCL                               | Low SIR (~0.2), high RSI (~70), low Borrow Fee (~0.01), high Public Float (~0.6)                         |
+| Highly Susceptible to Short Squeezes (2 companies) | AAPL, NVDA                                             | High SIR (~0.75), low RSI (~28), high Borrow Fee (~0.08), low Public Float (~0.15)                       |
+
+
+
+| Category                   | SIR      | RSI   | Borrow Fee (BF) | Public Float |
+| -------------------------- | -------- | ----- | --------------- | ------------ |
+| Mostly Holds               | ~0.35    | ~55   | ~0.02           | ~0.5         |
+| Balanced                   | 0.4-0.55 | 45-50 | 0.03-0.05       | 0.3-0.4      |
+| Mostly Sells               | ~0.2     | ~70   | ~0.01           | ~0.6         |
+| Highly Susceptible Squeeze | ~0.75    | ~28   | ~0.08           | ~0.15        |
