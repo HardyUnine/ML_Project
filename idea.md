@@ -65,3 +65,13 @@ Loop step 3 - 4 until 14 days are completed
 ## Solution ? 
  
 we simulate data that are in the fork of what can be considered a moment of short 
+
+
+
+
+## PROBLEM FOR LATER :
+
+SIR = total shares short / ADV
+
+--> create a total shares short
+--> create interaction between total shares short and ADV to create SIR 

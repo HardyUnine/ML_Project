@@ -34,7 +34,7 @@ def assign_shares(total_shares, N):
     return shares
 
 
-def update_company_state(company_state, net_buy_volume, day, squeeze_start, squeeze_end):
+def update_company_state(seed_row, company_state, net_buy_volume, day, squeeze_start, squeeze_end):
     # Price dynamics
     if squeeze_start <= day <= squeeze_end:
         # Sharp price increase during squeeze
@@ -79,12 +79,17 @@ def update_company_state(company_state, net_buy_volume, day, squeeze_start, sque
         adv_change = 0.01 * adv_diff  # slow reversion
         company_state['ADV'] = int(company_state['ADV'] + adv_change)
 
-    # SIR changes: builds during squeeze, slowly cools off otherwise
+    # SIR changes: builds during squeeze,using seed_row(SIR)
     if squeeze_start <= day <= squeeze_end:
-        company_state['SIR'] = min(round(company_state['SIR'] + 2), 150)
+        sir_change = (seed_row['SIR'] - company_state['SIR']/10) * 0.2
+    elif day < squeeze_start:
+        sir_change = (seed_row['SIR'] - company_state['SIR']/10) * 0.05
+    elif day > squeeze_end:
+        sir_change = (seed_row['SIR'] - company_state['SIR']/10) * 0.1
     else:
-        company_state['SIR'] = max(round(company_state['SIR'] - 0.1), 110)  # slow decrease
-
+        sir_change = (seed_row['SIR'] - company_state['SIR']/10) * 0.02
+        
+    company_state['SIR'] = int(company_state['SIR'] + sir_change)
     return company_state
 
 
@@ -136,7 +141,7 @@ def simulate_days(seed_row, days=30, N_agents=100, force_squeeze=False,
         # Add a small baseline buy volume (mild normal trading activity)
         net_buy_volume += 0.005 * current_state['TOTAL_SHARES']
         
-        current_state = update_company_state(current_state, net_buy_volume, day, squeeze_start, squeeze_end)
+        current_state = update_company_state(seed_row, current_state, net_buy_volume, day, squeeze_start, squeeze_end)
         current_state['DAY'] = day
         # Label SS only if RSI > 60 during squeeze period and force_squeeze is on
         current_state['SS'] = 1 if (force_squeeze and current_state['RSI'] > 60 and squeeze_start <= day <= squeeze_end) else 0
