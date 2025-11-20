@@ -113,7 +113,7 @@ def simulate_days(seed_row, days=30, N_agents=100, force_squeeze=False,
 
     for day in range(1, days + 1):
         if force_squeeze and squeeze_start <= day <= squeeze_end:
-            group_probs = [1.0, 0.0, 0.0]  # force all agents to be risky buyers
+            group_probs = [0.9, 0.05, 0.05]  # force all agents to be risky buyers
             force_decision = 1  # force buy
         else:
             # Normal randomized group probabilities
