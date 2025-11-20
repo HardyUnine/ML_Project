@@ -22,7 +22,7 @@ class Person:
             return 1   # Buy
         else:
             return 0   # Hold
-
+        
 
 def assign_shares(total_shares, N):
     weights = np.random.rand(N)
@@ -54,11 +54,12 @@ def update_company_state(company_state, net_buy_volume, day, squeeze_start, sque
 
     # RSI changes: more reactive during squeeze, minimal otherwise
     if squeeze_start <= day <= squeeze_end:
-        rsi_change = price_change_pct * 150 + np.random.normal(0, 1)
+        rsi_change = price_change_pct * 30 + np.random.normal(0, 1)
+    elif day < squeeze_start:
+        rsi_change = price_change_pct * 10 + np.random.normal(0, 0.5)
     else:
-        rsi_change = price_change_pct * 20 + np.random.normal(0, 0.1)
+        rsi_change = price_change_pct * 40 + np.random.normal(0, 0.2)
     company_state['RSI'] = np.clip(round(company_state['RSI'] + rsi_change, 2), 0, 100)
-
     # Borrow fee (BF) changes: increases during squeeze, slowly decreases or stable no squeeze
     if squeeze_start <= day <= squeeze_end:
         bf_change = 0.005 * max(net_buy_volume, 0) / company_state['TOTAL_SHARES']
