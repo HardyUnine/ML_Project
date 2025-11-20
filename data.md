@@ -1,8 +1,8 @@
 # Data info 
 
-SIR = Short Interest Ratio (e.g., 5–40% random daily series, with spikes)
+SIR = Short Interest Ratio ( = SHORTS / ADV ) --> also called DTC days to cover, > 5 indicates potential short squeeze 
 
-RSI = Relative Strength Index (RSI) (random 0–100 series; simulate up/down swings)
+RSI = Relative Strength Index (RSI) (random 0–100 series; simulate up/down swings) = calculated with RS = average gain / average loss -> RSI is $100 - 1/(1+RS)$
 
 BF = Broker Fee (Borrow Cost) (values between 0.2%–4%, random, sometimes spiking with SI)
 
@@ -10,7 +10,35 @@ ADV = Average Daily Volume (ADV) (simulate trading volume, with normal or log-no
 
 PUBLIC = Public Sentiment (Bernoulli draws for "shock" days, plus noisy sentiment score)
 
+SS = short squeeze, this is ( for now ) determined with SIR > 60 and SHORT SQUEEZE = True --> will tweek
 
+SHOTS = total shorts, useful for SIR calculation
+
+## Data and interactions for simulation
+
+$SIR$ = Short interest ratio 
+
+**How to calculate :** 
+
+$SIR = SHORTS / ADV$
+
+---
+
+$RSI$ = Relative Strength Index 
+
+**How to calculate :**
+It is calculated with $RS$ 
+
+$RS = average$ $gain/average$ $loss$
+
+$RSI = 1/(1+RS)$
+
+---
+
+$BF$ = Broker fee
+
+**How to calculate :**
+$BF = ADV*Flat$ $Fee$
 # Different companies' TICKERs :
 
 AAPL — Apple Inc.
