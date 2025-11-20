@@ -44,7 +44,7 @@ def update_company_state(company_state, net_buy_volume, day, squeeze_start, sque
         price_change_pct = 0.01 * net_buy_volume / company_state['TOTAL_SHARES']
     elif day > squeeze_end:
         # Slight price decrease after squeeze
-        price_change_pct = -0.05 * net_buy_volume / company_state['TOTAL_SHARES']
+        price_change_pct = -0.075 * net_buy_volume / company_state['TOTAL_SHARES']
     else:
         # No squeeze case: very mild stable price changes
         price_change_pct = 0.001 * net_buy_volume / company_state['TOTAL_SHARES']
