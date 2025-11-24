@@ -31,7 +31,7 @@ It is calculated with $RS$
 
 $RS = average$ $gain/average$ $loss$
 
-$RSI = 1/(1+RS)$
+$RSI = 100- 100/(1+RS)$
 
 ---
 
