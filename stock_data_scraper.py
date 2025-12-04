@@ -1,15 +1,12 @@
-#!/usr/bin/env python3
+# imports 
 import yfinance as yf
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 
-
-# ============================================================================
 # MANUAL DATA FROM FINVIZ FOR SHORTS AND WEB ARCHIVE FOR BORROW FEE
 #https://finviz.com/quote.ashx?t=GME&ty=si&p=d
 #https://web.archive.org/web/20210304230440/https://iborrowdesk.com/report/GME
-# ============================================================================
 MANUAL_DATA = {
     "2021-01-04": {"short_float_pct": 121.05, "bf": 0.226},
     "2021-01-05": {"short_float_pct": 121.05, "bf": 0.226},
@@ -44,18 +41,14 @@ MANUAL_DATA = {
 }
 
 
-# ============================================================================
-# CONFIGURATION
-# ============================================================================
+# CONFIGS
 SYMBOL = "GME"
 COMPANY_NAME = "GameStop Corp."
 START_DATE = "2021-01-04"
 END_DATE = "2021-02-16"
 
 
-# ============================================================================
 # HELPER FUNCTIONS
-# ============================================================================
 def get_price_volume_data(symbol, start_date, end_date):
     """Fetch OHLCV data with 60-day buffer for RSI calculation"""
     ticker = yf.Ticker(symbol)
@@ -104,27 +97,24 @@ def calculate_adv(volume_series, period=20):
 # ============================================================================
 # BUILD DATASET WITH MANUAL DATA
 # ============================================================================
-def build_stock_dataset():
-    print(f"Fetching data for {SYMBOL}...")
-    
-    # 1. Get price/volume data (with buffer)
+def build_stock_dataset():    
+    # Get price vol data (with our for the rsi calc buffer)
     price_data = get_price_volume_data(SYMBOL, START_DATE, END_DATE)
     
-    # 2. Get shares info
+    # Get shares info
     shares_info = get_shares_info(SYMBOL)
     public_float = shares_info['floatShares']
     total_shares = shares_info['sharesOutstanding']
     
-    # 3. Calculate RSI and ADV
-    print("  - Calculating RSI and ADV...")
+    # Calculate RSI and ADV
     price_data['RSI'] = calculate_rsi(price_data['Close'])
     price_data['ADV'] = calculate_adv(price_data['Volume'])
     
-    # 4. Filter to requested date range only
+    # Filter to our requested date range only
     price_data = price_data[price_data['Date'] >= START_DATE]
     price_data.reset_index(drop=True, inplace=True)
     
-    # 5. Build final dataset with manual short data
+    # Build final dataset with manual short data
     results = []
     
     for idx, row in price_data.iterrows():
@@ -166,9 +156,7 @@ def build_stock_dataset():
     return pd.DataFrame(results)
 
 
-# ============================================================================
 # MAIN EXECUTION
-# ============================================================================
 if __name__ == "__main__":
     df = build_stock_dataset()
     
