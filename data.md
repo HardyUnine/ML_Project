@@ -14,6 +14,8 @@ SS = short squeeze, this is ( for now ) determined with SIR > 60 and SHORT SQUEE
 
 SHOTS = total shorts, useful for SIR calculation
 
+PRICE_PER_SHARE = close price 
+
 ## Data and interactions for simulation
 
 $SIR$ = Short interest ratio 
