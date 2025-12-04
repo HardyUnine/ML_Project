@@ -125,7 +125,6 @@ def build_stock_dataset():
     price_data.reset_index(drop=True, inplace=True)
     
     # 5. Build final dataset with manual short data
-    print("  - Building final dataset with manual short data and BF...")
     results = []
     
     for idx, row in price_data.iterrows():
@@ -148,7 +147,6 @@ def build_stock_dataset():
             shorts = 0
             sir = 0
             bf = 0.12
-            print(f"  ⚠️  Warning: No manual data for {date_str}")
         
         results.append({
             'DAY': idx,
@@ -174,20 +172,6 @@ def build_stock_dataset():
 if __name__ == "__main__":
     df = build_stock_dataset()
     
-    print("\n" + "="*80)
-    print("FINAL DATASET")
-    print("="*80)
-    print(df.to_string(index=False))
-    
     output_file = f"{SYMBOL}_real.csv"
     df.to_csv(output_file, index=False)
-    print(f"\nData saved to: {output_file}")
     
-    print("\n" + "="*80)
-    print("DATA SOURCES & CALCULATIONS")
-    print("="*80)
-    print("✅ Price/Volume/RSI/ADV: yfinance (Yahoo Finance)")
-    print("✅ Short Float %: Manual data from Finviz")
-    print("✅ Borrow Fee (BF): Manual data from Finviz")
-    print("✅ SHORTS: Calculated as (Short Float % / 100) × PUBLIC Float")
-    print("✅ SIR: Calculated as SHORTS / ADV (Days to Cover)")
