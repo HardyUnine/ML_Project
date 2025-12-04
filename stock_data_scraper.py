@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
+import requests
 
 # MANUAL DATA FROM FINVIZ FOR SHORTS AND WEB ARCHIVE FOR BORROW FEE
 #https://finviz.com/quote.ashx?t=GME&ty=si&p=d
@@ -46,6 +47,7 @@ SYMBOL = "GME"
 COMPANY_NAME = "GameStop Corp."
 START_DATE = "2021-01-04"
 END_DATE = "2021-02-16"
+ALPHA_VANTAGE_API_KEY = "KVF6G8WHRYA1I47U"
 
 
 # HELPER FUNCTIONS
@@ -73,20 +75,36 @@ def get_shares_info(symbol):
         'floatShares': info.get('floatShares', 408656827),  # GME Jan 2021
     }
 
+def get_rsi_from_api(symbol, api_key):
+    """Fetch RSI from Alpha Vantage API"""
+    print("  - Fetching RSI from Alpha Vantage API...")
+    url = "https://www.alphavantage.co/query"
+    params = {
+        'function': 'RSI',
+        'symbol': symbol,
+        'interval': 'daily',
+        'time_period': 14,
+        'series_type': 'close',
+        'apikey': api_key
+    }
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        
+        if 'Technical Analysis: RSI' in data:
+            rsi_data = data['Technical Analysis: RSI']
+            df = pd.DataFrame.from_dict(rsi_data, orient='index')
+            df.index = pd.to_datetime(df.index).strftime('%Y-%m-%d')
+            df.columns = ['RSI']
+            df['RSI'] = df['RSI'].astype(float)
+            return df
+        else:
+            print(f"Warning: Could not fetch RSI. Response: {data}")
+            return None
+    except Exception as e:
+        print(f"Error fetching RSI: {e}")
+        return None
 
-def calculate_rsi(prices, period=14):
-    """Calculate RSI from price series"""
-    delta = prices.diff()
-    gain = delta.where(delta > 0, 0)
-    loss = -delta.where(delta < 0, 0)
-    
-    avg_gain = gain.rolling(window=period, min_periods=period).mean()
-    avg_loss = loss.rolling(window=period, min_periods=period).mean()
-    
-    rs = avg_gain / avg_loss
-    rsi = 100 - (100 / (1 + rs))
-    
-    return rsi
 
 
 def calculate_adv(volume_series, period=20):
@@ -94,9 +112,7 @@ def calculate_adv(volume_series, period=20):
     return volume_series.rolling(window=period, min_periods=1).mean()
 
 
-# ============================================================================
 # BUILD DATASET WITH MANUAL DATA
-# ============================================================================
 def build_stock_dataset():    
     # Get price vol data (with our for the rsi calc buffer)
     price_data = get_price_volume_data(SYMBOL, START_DATE, END_DATE)
@@ -106,10 +122,16 @@ def build_stock_dataset():
     public_float = shares_info['floatShares']
     total_shares = shares_info['sharesOutstanding']
     
-    # Calculate RSI and ADV
-    price_data['RSI'] = calculate_rsi(price_data['Close'])
+    # Get RSI from API and ADV calculation
+    rsi_df = get_rsi_from_api(SYMBOL, "KVF6G8WHRYA1I47U")
     price_data['ADV'] = calculate_adv(price_data['Volume'])
     
+    # Merge RSI data by date
+    if rsi_df is not None:
+        price_data = price_data.merge(rsi_df, left_on='Date', right_index=True, how='left')
+    else:
+        price_data['RSI'] = 50.0  # Fallback
+
     # Filter to our requested date range only
     price_data = price_data[price_data['Date'] >= START_DATE]
     price_data.reset_index(drop=True, inplace=True)
@@ -160,6 +182,6 @@ def build_stock_dataset():
 if __name__ == "__main__":
     df = build_stock_dataset()
     
-    output_file = f"{SYMBOL}_real.csv"
+    output_file = f"{SYMBOL}_api.csv"
     df.to_csv(output_file, index=False)
     
