@@ -56,12 +56,16 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
         if force_squeeze and day < squeeze_start:
             bf_change = np.random.uniform(-0.01, 0.01)
         elif force_squeeze and squeeze_start <= day <= squeeze_end:
-            bf_change = np.random.uniform(0.3, 0.5)
+            # BF spikes dramatically during squeeze
+            bf_change = np.random.uniform(0.15, 0.35)  # MUCH bigger
         elif force_squeeze and day > squeeze_end:
-            bf_change = np.random.uniform(-0.2, -0.1)
+            # BF crashes after squeeze
+            bf_change = np.random.uniform(-0.30, -0.15)  # SHARP decline
         else:
-            bf_change = np.random.normal(0, 0.05)
-        bf *= (1 + bf_change/10)
+            bf_change = np.random.normal(0, 0.02)
+        bf *= (1 + bf_change)  # NO /10 division
+        bf = max(0.01, bf)  # Keep positive
+
         bf_array.append(round(bf, 2))
 
         # Simulate ADV change
