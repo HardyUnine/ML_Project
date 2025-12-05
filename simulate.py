@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
 
-def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.randint(14,17), squeeze_end=np.random.randint(20,23)):
+#def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.randint(12,13), squeeze_end=np.random.randint(18,19)):
+def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=13, squeeze_end=19):
     np.random.seed(42)  # reproducibility
-    
+
     # Initialize values from seed
     total_shares = seed['TOTAL_SHARES']
     shorts = seed['SHORTS']
@@ -95,7 +96,7 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
         else:
             # rsi change equally likely to go up or down by the same amount
             rsi_change = np.random.normal(0.2, 0.5)
-        rsi = max(0, min(100, rsi + rsi_change/10))
+        rsi = max(0, min(100, rsi + rsi_change))
         # append rounding to 2 decimals
         rsi_array.append(round(rsi, 2))
 
