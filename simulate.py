@@ -91,23 +91,28 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=13, squeeze_
         # append --> we round in the data frame creation step
         sir_array.append(sir)
 
-        # Update RSI
+        # Simulate RSI change
         if force_squeeze and day < squeeze_start:
-            # upward momentum building
-            rsi_change = np.random.uniform(1.0, 3.0)    # RSI rising each day
+            # Pre-squeeze: gentle climb toward overbought
+            rsi_change = np.random.uniform(1.5, 2.5)
+            
         elif force_squeeze and squeeze_start <= day <= squeeze_end:
-            # strong overbought pressure
-            rsi_change = np.random.uniform(5.0, 12.0)
-        elif force_squeeze and day > squeeze_end:
-            # momentum unwinding
-            rsi_change = np.random.uniform(-12.0, -5.0)
+            # During squeeze: aggressive climb to peak overbought (but cap at ~95)
+            rsi_change = np.random.uniform(4.0, 8.0)
+            
+        elif force_squeeze and day == squeeze_end + 1:
+            # Day after squeeze ends: sharp crash
+            rsi_change = np.random.uniform(-25.0, -15.0)
+            
+        elif force_squeeze and day > squeeze_end + 1:
+            # Post-squeeze: continue gentle decline toward equilibrium (~45-50)
+            rsi_change = np.random.uniform(-4.0, -1.0)
         else:
             rsi_change = np.random.normal(0.5, 1.5)
 
-        # IMPORTANT: no division by 10 here
+        # Update RSI and keep it in bounds [0, 100]
         rsi = max(0, min(100, rsi + rsi_change))
         rsi_array.append(round(rsi, 2))
-
 
         # SS flag
         if force_squeeze and squeeze_start <= day <= squeeze_end:
