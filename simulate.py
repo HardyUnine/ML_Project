@@ -28,9 +28,9 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=13, squeeze_
     for day in range(1, days + 1):
         # Simulate price change
         if force_squeeze and day < squeeze_start:
-            price_change_pct = np.random.uniform(-0.05, -0.15)
+            price_change_pct = np.random.uniform(0.02, 0.08)
         elif force_squeeze and squeeze_start <= day <= squeeze_end:
-            price_change_pct = np.random.uniform(0.3, 0.5)
+            price_change_pct = np.random.uniform(0.6, 1.2) 
         elif force_squeeze and day > squeeze_end:
             price_change_pct = np.random.uniform(-0.05, 0.01)
         else:
@@ -41,7 +41,7 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=13, squeeze_
 
         # Simulate shorts change
         if force_squeeze and day < squeeze_start:
-            shorts_change_pct = np.random.uniform(0.01, 0.03)  # Slow increase pre-squeeze
+            shorts_change_pct = np.random.uniform(-0.01, 0.01)
         elif force_squeeze and squeeze_start <= day <= squeeze_end:
             shorts_change_pct = np.random.uniform(-0.15, -0.25)  # AGGRESSIVE covering
 
