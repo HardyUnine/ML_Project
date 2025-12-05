@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.randint(6,7), squeeze_end=np.random.randint(20,21)):
+def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.randint(14,17), squeeze_end=np.random.randint(20,23)):
     np.random.seed(42)  # reproducibility
     
     # Initialize values from seed
@@ -29,12 +29,12 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
         if force_squeeze and day < squeeze_start:
             price_change_pct = np.random.uniform(-0.05, -0.15)
         elif force_squeeze and squeeze_start <= day <= squeeze_end:
-            price_change_pct = np.random.uniform(0.2, 0.3)
+            price_change_pct = np.random.uniform(0.3, 0.5)
         elif force_squeeze and day > squeeze_end:
-            price_change_pct = np.random.uniform(-0.15, -0.2)
+            price_change_pct = np.random.uniform(-0.05, 0.01)
         else:
             price_change_pct = np.random.normal(0, 0.01)
-        price *= (1 + price_change_pct)
+        price *= (1 + price_change_pct) 
         # append rounding to 2 decimals
         prices.append(round(price, 2))
 
@@ -47,9 +47,10 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
             shorts_change_pct = np.random.uniform(0.05, 0.1)
         else:
             shorts_change_pct = np.random.normal(0, 0.05)
-        shorts *= (1 + shorts_change_pct)
+        shorts *= (1 + shorts_change_pct/10)
         # append rounding to integer 
         shorts_array.append(round(shorts))
+
         # Simulate BF change
         if force_squeeze and day < squeeze_start:
             bf_change = np.random.uniform(-0.01, 0.01)
@@ -59,7 +60,7 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
             bf_change = np.random.uniform(-0.2, -0.1)
         else:
             bf_change = np.random.normal(0, 0.05)
-        bf *= (1 + bf_change)
+        bf *= (1 + bf_change/10)
         bf_array.append(round(bf, 2))
 
         # Simulate ADV change
@@ -89,7 +90,7 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
         else:
             # rsi change equally likely to go up or down by the same amount
             rsi_change = np.random.normal(0.2, 0.5)
-        rsi = max(0, min(100, rsi + rsi_change))
+        rsi = max(0, min(100, rsi + rsi_change/10))
         # append rounding to 2 decimals
         rsi_array.append(round(rsi, 2))
 
