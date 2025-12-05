@@ -47,7 +47,6 @@ SYMBOL = "GME"
 COMPANY_NAME = "GameStop Corp."
 START_DATE = "2021-01-04"
 END_DATE = "2021-02-16"
-ALPHA_VANTAGE_API_KEY = "KVF6G8WHRYA1I47U"
 
 
 # HELPER FUNCTIONS
@@ -139,6 +138,13 @@ def build_stock_dataset():
     # Build final dataset with manual short data
     results = []
     
+    # Define squeeze dates (Jan 22 - Feb 1, 2021)
+    squeeze_dates = [
+        '2021-01-22', '2021-01-25', '2021-01-26', 
+        '2021-01-27', '2021-01-28', '2021-01-29', 
+        '2021-02-01'
+    ]
+    
     for idx, row in price_data.iterrows():
         date_str = row['Date']
         adv = row['ADV'] if pd.notna(row['ADV']) else row['Volume']
@@ -160,6 +166,12 @@ def build_stock_dataset():
             sir = 0
             bf = 0.12
         
+        # Check if date is in squeeze period
+        if date_str in squeeze_dates:
+            ss = 1
+        else:
+            ss = 0
+        
         results.append({
             'DAY': idx,
             'TICKER': SYMBOL,
@@ -172,8 +184,9 @@ def build_stock_dataset():
             'ADV': round(adv, 0),
             'PUBLIC': public_float,
             'PRICE_PER_SHARE': round(row['Close'], 2),
-            'SS': 0  # Placeholder
+            'SS': ss
         })
+
     
     return pd.DataFrame(results)
 
@@ -182,6 +195,6 @@ def build_stock_dataset():
 if __name__ == "__main__":
     df = build_stock_dataset()
     
-    output_file = f"{SYMBOL}_api.csv"
+    output_file = f"{SYMBOL}_api_ss.csv"
     df.to_csv(output_file, index=False)
     
