@@ -40,9 +40,10 @@ def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.ra
 
         # Simulate shorts change
         if force_squeeze and day < squeeze_start:
-            shorts_change_pct = np.random.uniform(0.6, 0.9)
+            shorts_change_pct = np.random.uniform(0.01, 0.03)  # Slow increase pre-squeeze
         elif force_squeeze and squeeze_start <= day <= squeeze_end:
-            shorts_change_pct = np.random.uniform(-0.1, -0.2)
+            shorts_change_pct = np.random.uniform(-0.15, -0.25)  # AGGRESSIVE covering
+
         elif force_squeeze and day > squeeze_end:
             shorts_change_pct = np.random.uniform(0.05, 0.1)
         else:
