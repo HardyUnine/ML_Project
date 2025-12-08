@@ -1,8 +1,11 @@
+# macOS
 **/.DS_Store
-**/.vscode
-# removing pycache also
+
+# VS Code
+.vscode/
+
+# Python
 **/__pycache__
-# Python compiled files
 **/*.pyc
 **/*.pyo
 **/*.pyd
