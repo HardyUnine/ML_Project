@@ -49,24 +49,19 @@ START_DATE = "2021-01-04"
 END_DATE = "2021-02-16"
 
 
-# HELPER FUNCTIONS
+# FUNCTIONS
 def get_price_volume_data(symbol, start_date, end_date):
-    """Fetch OHLCV data with 60-day buffer for RSI calculation"""
     ticker = yf.Ticker(symbol)
-    buffer_days = 60
-    start_dt = datetime.strptime(start_date, "%Y-%m-%d")
-    buffer_dt = start_dt - timedelta(days=buffer_days)
-    buffer_start_str = buffer_dt.strftime("%Y-%m-%d")
     
-    hist = ticker.history(start=buffer_start_str, end=end_date)
+    hist = ticker.history(start=start_date, end=end_date)
     hist.reset_index(inplace=True)
     hist['Date'] = hist['Date'].dt.strftime('%Y-%m-%d')
     
     return hist[['Date', 'Open', 'High', 'Low', 'Close', 'Volume']]
 
 
+
 def get_shares_info(symbol):
-    """Get shares outstanding and float"""
     ticker = yf.Ticker(symbol)
     info = ticker.info
     return {
@@ -75,7 +70,6 @@ def get_shares_info(symbol):
     }
 
 def get_rsi_from_api(symbol, api_key):
-    """Fetch RSI from Alpha Vantage API"""
     print("  - Fetching RSI from Alpha Vantage API...")
     url = "https://www.alphavantage.co/query"
     params = {
@@ -107,13 +101,12 @@ def get_rsi_from_api(symbol, api_key):
 
 
 def calculate_adv(volume_series, period=20):
-    """Calculate Average Daily Volume"""
     return volume_series.rolling(window=period, min_periods=1).mean()
 
 
 # BUILD DATASET WITH MANUAL DATA
 def build_stock_dataset():    
-    # Get price vol data (with our for the rsi calc buffer)
+    # Get price vol data 
     price_data = get_price_volume_data(SYMBOL, START_DATE, END_DATE)
     
     # Get shares info
