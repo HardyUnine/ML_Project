@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-#def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=np.random.randint(12,13), squeeze_end=np.random.randint(18,19)):
 def simulate_days(seed, days=30, force_squeeze=False, squeeze_start=13, squeeze_end=19):
     np.random.seed(42)  # reproducibility
 
