@@ -25,7 +25,9 @@ Prerequisites: Python 3.8+, pip
 Setup:
 
 git clone https://github.com/HardyUnine/ML_Project.git
+
 cd ML_Project
+
 pip install -r requirements.txt
 
 ## Authors
