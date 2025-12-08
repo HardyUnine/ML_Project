@@ -1,6 +1,4 @@
-# Can we develop a predictive model to assess the
-likelihood of a stock experiencing a short
-squeeze within the next 5 to 10 trading days?
+# Can we develop a predictive model to assess the likelihood of a stock experiencing a short squeeze within the next 5 to 10 trading days?
 
 ## Overview
 
