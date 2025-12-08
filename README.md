@@ -1,22 +1,43 @@
 # Can we develop a predictive model to assess the
 likelihood of a stock experiencing a short
 squeeze within the next 5 to 10 trading days?
-//
-This is the github for our ML project SA 2025 
 
-Collaborators : **Angeliki Andreadi** & **Keenan Hardy**
-//
-[Course Github](https://github.com/olethrosdc/machine-learning-neuch/)
-// 
-[Overleaf editing link](https://www.overleaf.com/6919343394yxhkjfbwcfjt#d3ece9)
+## Overview
 
+This project implements a classification model to predict short squeeze events using historical stock market indicators. We combine real market data from January-February 2021 with simulated datasets to train and evaluate machine learning models.
 
-## TODO 
+## Key Features
 
-Define a scientific question for your project as well as the motivation for that question.
-Determine what data you would need to answer the question. Which variables? How could it be collected? Are there example data similar to what you need available online?
-Specify how you would model rela tionships between the different variables. What would you be looking for? Can the problem be cast as classification, regression, or something else?
-What potential problems can you imagine might arise when trying to analyse the data?
-Answer the above questions, keeping in mind that you most probably will not be able to obtain the necessary data to perform the analysis. The actual project will be based on you simulating data from a generative model that you create. This will allow you to test under which conditions your methodology can and cannot work. 
+- Real Data Collection: Automated scraping of OHLCV data, short interest metrics, and borrow fees from Yahoo Finance and Finviz
+- Discrete-Event Simulation: Custom simulator modeling stock price, shorts covering, RSI evolution, and borrow fee dynamics
+- Model Evaluation: Comparative analysis of LightGBM and Random Forest classifiers with comprehensive metrics
+- Data Visualization: Side-by-side comparison of real vs. simulated data across multiple indicators
 
-The question to answer for this assignment about your project are the 4 questions asked above( You will also find it in the second page of the attached pdf). Submit your assignment as a pdf (one assignment per group so only one member will submit the group assignment). Add all group member in the assignment.
+## Dataset
+
+- Time Period: January 4 - February 16, 2021
+- Ticker: GME (GameStop Corp.)
+- Squeeze Window: January 22 - February 1, 2021 (labeled as SS=1)
+- Features: PRICE_PER_SHARE, SHORTS, SIR, RSI, BF, ADV
+
+## Installation
+
+Prerequisites: Python 3.8+, pip
+
+Setup:
+
+git clone https://github.com/HardyUnine/ML_Project.git
+cd ML_Project
+pip install -r requirements.txt
+
+## Authors
+
+Hardy Keenan and Andreadi Angeliki
+
+## License
+
+Educational purposes only.
+
+## Disclaimer
+
+For educational and research purposes only. Not financial advice.
