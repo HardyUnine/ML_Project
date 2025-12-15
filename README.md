@@ -1,4 +1,4 @@
-# Can we develop a predictive model to assess the likelihood of a stock experiencing a short squeeze within the next 5 to 10 trading days?
+# Given daily stock-level indicators, can a model reliably predict whether a shorted stock will enter a short squeeze within the next three days?
 
 ## Overview
 
